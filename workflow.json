@@ -1,0 +1,1573 @@
+{
+  "name": "Registro_FacturasRecibidas_HCG_V6",
+  "nodes": [
+    {
+      "parameters": {
+        "outputPrefix": "0"
+      },
+      "type": "n8n-nodes-base.compression",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        1376
+      ],
+      "id": "ed81f964-a508-4ec7-9fbc-df81649f1637",
+      "name": "Descomprimir ZIP1",
+      "alwaysOutputData": false,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "fileName",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        -736,
+        1712
+      ],
+      "id": "cd329288-21bc-427e-a5f0-c3a5691109fe",
+      "name": "Remove Duplicates7"
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "fileName",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        1376
+      ],
+      "id": "d46c5233-c740-4fb4-ba34-2a773d065299",
+      "name": "Remove Duplicates1"
+    },
+    {
+      "parameters": {
+        "tableId": "proveedores",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nit",
+              "fieldValue": "={{ $json.proveedor_id }}"
+            },
+            {
+              "fieldId": "razon_social",
+              "fieldValue": "={{ $json.razon_social_proveedor }}"
+            },
+            {
+              "fieldId": "regimen_tributario",
+              "fieldValue": "={{ $json.proveedor_data.regimen_tributario }}"
+            },
+            {
+              "fieldId": "direccion",
+              "fieldValue": "={{ $json.proveedor_data.direccion }}"
+            },
+            {
+              "fieldId": "telefono",
+              "fieldValue": "={{ $json.proveedor_data.telefono }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.proveedor_data.email }}"
+            },
+            {
+              "fieldId": "ciudad",
+              "fieldValue": "={{ $json.proveedor_data.ciudad }}"
+            },
+            {
+              "fieldId": "tipo_contribuyente",
+              "fieldValue": "={{ $json.proveedor_data.tipo_contribuyente }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        1520
+      ],
+      "id": "0b97d76a-13ac-409e-b602-3f85c7d0e6e8",
+      "name": "Crear Proveedor3",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "tableId": "facturas",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "numero_factura",
+              "fieldValue": "={{ $('Extraer XML').item.json.numero_factura }}"
+            },
+            {
+              "fieldId": "tipo_documento",
+              "fieldValue": "={{ $('Extraer XML').item.json.tipo_documento }}"
+            },
+            {
+              "fieldId": "proveedor_id",
+              "fieldValue": "={{ $('Extraer XML').item.json.proveedor_id }}"
+            },
+            {
+              "fieldId": "razon_social_proveedor",
+              "fieldValue": "={{ $('Extraer XML').item.json.razon_social_proveedor }}"
+            },
+            {
+              "fieldId": "concepto_detallado",
+              "fieldValue": "={{ $('Extraer XML').item.json.concepto_detallado }}"
+            },
+            {
+              "fieldId": "centro_costo_id",
+              "fieldValue": "={{ $('Extraer XML').item.json.centro_costo_id }}"
+            },
+            {
+              "fieldId": "transaccion_id",
+              "fieldValue": "={{ $('Extraer XML').item.json.transaccion_id }}"
+            },
+            {
+              "fieldId": "fecha_emision",
+              "fieldValue": "={{ $('Extraer XML').item.json.fecha_emision }}"
+            },
+            {
+              "fieldId": "fecha_vencimiento",
+              "fieldValue": "={{ $('Extraer XML').item.json.fecha_vencimiento }}"
+            },
+            {
+              "fieldId": "valor_base_gravable",
+              "fieldValue": "={{ $('Extraer XML').item.json.valor_base_gravable }}"
+            },
+            {
+              "fieldId": "iva_valor",
+              "fieldValue": "={{ $('Extraer XML').item.json.iva_valor }}"
+            },
+            {
+              "fieldId": "retencion_fuente_valor",
+              "fieldValue": "={{ $('Extraer XML').item.json.retencion_fuente_valor }}"
+            },
+            {
+              "fieldId": "retencion_iva_valor",
+              "fieldValue": "={{ $('Extraer XML').item.json.retencion_iva_valor }}"
+            },
+            {
+              "fieldId": "retencion_ica_valor",
+              "fieldValue": "={{ $('Extraer XML').item.json.retencion_ica_valor }}"
+            },
+            {
+              "fieldId": "impuesto_consumo_valor",
+              "fieldValue": "={{ $('Extraer XML').item.json.impuesto_consumo_valor }}"
+            },
+            {
+              "fieldId": "otros_cargos",
+              "fieldValue": "={{ $('Extraer XML').item.json.otros_cargos }}"
+            },
+            {
+              "fieldId": "valor_total_factura",
+              "fieldValue": "={{ $('Extraer XML').item.json.valor_total_factura }}"
+            },
+            {
+              "fieldId": "cuenta_contable",
+              "fieldValue": "={{ $('Extraer XML').item.json.cuenta_contable }}"
+            },
+            {
+              "fieldId": "tipo_gasto",
+              "fieldValue": "={{ $('Extraer XML').item.json.tipo_gasto }}"
+            },
+            {
+              "fieldId": "tipo_operacion",
+              "fieldValue": "={{ $('Extraer XML').item.json.tipo_operacion }}"
+            },
+            {
+              "fieldId": "estado_pago",
+              "fieldValue": "={{ $('Extraer XML').item.json.estado_pago }}"
+            },
+            {
+              "fieldId": "cufe",
+              "fieldValue": "={{ $('Extraer XML').item.json.cufe }}"
+            },
+            {
+              "fieldId": "observaciones",
+              "fieldValue": "={{ $('Extraer XML').item.json.observaciones }}"
+            },
+            {
+              "fieldId": "archivo_factura_url",
+              "fieldValue": "={{ $('Extraer XML').item.json.archivo_factura_url }}"
+            },
+            {
+              "fieldId": "metadata",
+              "fieldValue": "={{ $('Extraer XML').item.json.metadata }}"
+            },
+            {
+              "fieldId": "asignacion_pendiente",
+              "fieldValue": "={{ $('Extraer XML').item.json.asignacion_pendiente }}"
+            },
+            {
+              "fieldId": "registro_items",
+              "fieldValue": "={{ $('Extraer XML').item.json.registro_items }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        1520
+      ],
+      "id": "82e36780-68c4-4cfb-b9fc-c978cd9ee7da",
+      "name": "Registrar Factura2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "REDACTED_GMAIL_LABEL_ID"
+          ]
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1104,
+        1216
+      ],
+      "id": "8fe5f727-63e3-4c6b-99b0-1471f80e14a6",
+      "name": "Factura Recibida",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CRED_ID",
+          "name": "Gmail HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -912,
+        1664
+      ],
+      "id": "9936d7de-66db-4448-9746-c1f3304fe68d",
+      "name": "Marcar como Leido",
+      "webhookId": "REDACTED_WEBHOOK_1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CRED_ID",
+          "name": "Gmail HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "let results = [];\n\nfor (item of items) {\n    for (key of Object.keys(item.binary)) {\n        results.push({\n            json: {\n                fileName: item.binary[key].fileName,\n                mimeType: item.binary[key].mimeType,\n            },\n            binary: {\n                data: item.binary[key],\n            }\n        });\n    }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -512,
+        1392
+      ],
+      "id": "99ab29e0-b2d3-4bd8-8bb9-4b43b6e0bd53",
+      "name": "Obtener Tipo de Archivo",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "onError": "continueRegularOutput",
+      "notes": "Si es PDF o ZIP"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "REDACTED_GMAIL_LABEL_ID"
+          ],
+          "readStatus": "unread"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1104,
+        1424
+      ],
+      "id": "b4514b05-6baf-471f-b390-ef0392418327",
+      "name": "Leer Facturas no Leidas",
+      "webhookId": "REDACTED_WEBHOOK_2",
+      "notesInFlow": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REDACTED_GMAIL_CRED_ID",
+          "name": "Gmail HCG"
+        }
+      },
+      "notes": "Lee correos con tag 'FACTURAS'"
+    },
+    {
+      "parameters": {
+        "tableId": "compras_detalle",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "proveedor_id",
+              "fieldValue": "={{ $json.proveedor_id }}"
+            },
+            {
+              "fieldId": "razon_social_proveedor",
+              "fieldValue": "={{ $json.razon_social_proveedor }}"
+            },
+            {
+              "fieldId": "numero_factura",
+              "fieldValue": "={{ $json.numero_factura }}"
+            },
+            {
+              "fieldId": "fecha_emision",
+              "fieldValue": "={{ $json.fecha_emision }}"
+            },
+            {
+              "fieldId": "item_numero",
+              "fieldValue": "={{ $json.item_numero }}"
+            },
+            {
+              "fieldId": "codigo",
+              "fieldValue": "={{ $json.codigo }}"
+            },
+            {
+              "fieldId": "descripcion",
+              "fieldValue": "={{ $json.descripcion }}"
+            },
+            {
+              "fieldId": "cantidad",
+              "fieldValue": "={{ $json.cantidad }}"
+            },
+            {
+              "fieldId": "unidad_medida",
+              "fieldValue": "={{ $json.unidad_medida }}"
+            },
+            {
+              "fieldId": "valor_unitario_sin_impuestos",
+              "fieldValue": "={{ $json.valor_unitario_sin_impuestos }}"
+            },
+            {
+              "fieldId": "descuento_tarifa",
+              "fieldValue": "={{ $json.descuento_tarifa }}"
+            },
+            {
+              "fieldId": "descuento_valor_unitario",
+              "fieldValue": "={{ $json.descuento_valor_unitario }}"
+            },
+            {
+              "fieldId": "valor_unitario_con_descuento",
+              "fieldValue": "={{ $json.valor_unitario_con_descuento }}"
+            },
+            {
+              "fieldId": "valor_total_sin_impuestos",
+              "fieldValue": "={{ $json.valor_total_sin_impuestos }}"
+            },
+            {
+              "fieldId": "descuento_total",
+              "fieldValue": "={{ $json.descuento_total }}"
+            },
+            {
+              "fieldId": "iva_tarifa",
+              "fieldValue": "={{ $json.iva_tarifa }}"
+            },
+            {
+              "fieldId": "iva_valor_unitario",
+              "fieldValue": "={{ $json.iva_valor_unitario }}"
+            },
+            {
+              "fieldId": "impuesto_consumo_tarifa",
+              "fieldValue": "={{ $json.impuesto_consumo_tarifa }}"
+            },
+            {
+              "fieldId": "impuesto_consumo_valor_unitario",
+              "fieldValue": "={{ $json.impuesto_consumo_valor_unitario }}"
+            },
+            {
+              "fieldId": "valor_unitario_con_impuestos",
+              "fieldValue": "={{ $json.valor_unitario_con_impuestos }}"
+            },
+            {
+              "fieldId": "valor_total_con_impuestos",
+              "fieldValue": "={{ $json.valor_total_con_impuestos }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2144,
+        1520
+      ],
+      "id": "3653bb3e-a9c9-4d16-8bce-24bad71ea66c",
+      "name": "Registro Detalle",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        1520
+      ],
+      "id": "623590b7-7089-4c0f-ab74-b1376b56488e",
+      "name": "Convertir a JSON",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        800,
+        1520
+      ],
+      "id": "876454a6-371e-41c1-9c7d-3282945b5c9e",
+      "name": "Extract from File",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "facturas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Registrar Factura2').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "registro_items",
+              "fieldValue": "registrado"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2816,
+        1520
+      ],
+      "id": "836b701f-29a6-4c19-af0c-835336002228",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "39bfc32b-f8c2-475d-bcb1-85dac9c41c33",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "xml",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XML"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "6eb33a0a-32dd-427e-bb6e-01f97ad31f25"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        512,
+        1536
+      ],
+      "id": "2ebd58be-03cf-4668-aaff-b2ab71635a27",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "REDACTED_DRIVE_FOLDER_XML",
+          "mode": "list",
+          "cachedResultName": "RecibidasHCG_XML_2026",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_XML"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        688,
+        1168
+      ],
+      "id": "bd4005f5-2c54-4bec-8454-4e15fc9a433c",
+      "name": "Subir XML a Drive",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "REDACTED_DRIVE_FOLDER_PDF",
+          "mode": "list",
+          "cachedResultName": "RecibidasHCG_PDF_2026",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_PDF"
+        },
+        "options": {
+          "simplifyOutput": true
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        688,
+        1360
+      ],
+      "id": "7a8ad549-3c19-4322-8184-a2be321962f2",
+      "name": "Subir PDF a Drive",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrae todos los campos de un AttachedDocument DIAN (XML interior) para registrar en Supabase.\n// Sin dependencias externas — compatible con n8n task runner.\n\nfunction getText(xml, tag) {\n  if (!xml) return null;\n  const t = tag.replace(':', '\\\\:');\n  const m = xml.match(new RegExp('<' + t + '(?:\\\\s[^>]*)?>([^<]*)<\\\\/' + t + '>'));\n  return (m && m[1].trim()) ? m[1].trim() : null;\n}\n\nfunction getAttr(xml, tag, attr) {\n  if (!xml) return null;\n  const t = tag.replace(':', '\\\\:');\n  const m = xml.match(new RegExp('<' + t + '[^>]*\\\\s' + attr + '=\"([^\"]*)\"'));\n  return m ? m[1] : null;\n}\n\nfunction getBlock(xml, tag) {\n  if (!xml) return null;\n  const t = tag.replace(':', '\\\\:');\n  const re = new RegExp('<' + t + '(?:\\\\s[^>]*)?>[\\\\s\\\\S]*?<\\\\/' + t + '>', 's');\n  const m = xml.match(re);\n  return m ? m[0] : null;\n}\n\nfunction getBlocks(xml, tag) {\n  if (!xml) return [];\n  const t = tag.replace(':', '\\\\:');\n  const re = new RegExp('<' + t + '(?:\\\\s[^>]*)?>[\\\\s\\\\S]*?<\\\\/' + t + '>', 'gs');\n  return [...xml.matchAll(re)].map(m => m[0]);\n}\n\nfunction toNum(str) {\n  if (str === null || str === undefined) return null;\n  const n = parseFloat(str);\n  return isNaN(n) ? null : n;\n}\n\nfunction adVal(node) {\n  if (!node) return null;\n  if (typeof node === 'string') return node;\n  if (typeof node === 'object' && '_' in node) return String(node._);\n  return null;\n}\n\nfunction mapTipoDocumento(code) {\n  const map = { '01': 'factura', '02': 'factura', '03': 'factura', '91': 'nota credito', '92': 'nota credito' };\n  return map[code] ?? 'factura';\n}\n\nfunction mapTipoOperacion(code) {\n  return (code === 'CO' || !code) ? 'nacional' : 'internacional';\n}\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const ad = item.json?.AttachedDocument;\n\n  if (!ad) {\n    results.push({ json: { tiene_xml_interior: false } });\n    continue;\n  }\n\n  const numero_factura         = adVal(ad?.['cbc:ParentDocumentID']);\n  const cufe                   = adVal(ad?.['cac:ParentDocumentLineReference']?.['cac:DocumentReference']?.['cbc:UUID']);\n  const fecha_emision          = adVal(ad?.['cac:ParentDocumentLineReference']?.['cac:DocumentReference']?.['cbc:IssueDate']);\n  const senderPartyTax         = ad?.['cac:SenderParty']?.['cac:PartyTaxScheme'];\n  const proveedor_id           = adVal(senderPartyTax?.['cbc:CompanyID']);\n  const razon_social_proveedor = adVal(senderPartyTax?.['cbc:RegistrationName']);\n\n  const descNode = ad?.['cac:Attachment']?.['cac:ExternalReference']?.['cbc:Description'];\n  let innerXml = typeof descNode === 'string' ? descNode\n               : (descNode?.['_'] ?? descNode?.['#text'] ?? null);\n\n  if (!innerXml?.trim()) {\n    results.push({\n      json: {\n        tiene_xml_interior: false,\n        numero_factura, cufe, fecha_emision, proveedor_id, razon_social_proveedor,\n      }\n    });\n    continue;\n  }\n\n  innerXml = innerXml.replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, '$1');\n\n  const tipo_documento_code = getText(innerXml, 'cbc:InvoiceTypeCode')\n    ?? getText(innerXml, 'cbc:CreditNoteTypeCode')\n    ?? getText(innerXml, 'cbc:DebitNoteTypeCode');\n  const tipo_documento = mapTipoDocumento(tipo_documento_code);\n\n  const fecha_vencimiento =\n    getText(innerXml, 'cbc:DueDate') ??\n    getText(getBlock(innerXml, 'cac:PaymentMeans') ?? '', 'cbc:PaymentDueDate');\n\n  const tipo_operacion_code = getText(getBlock(innerXml, 'sts:InvoiceSource') ?? '', 'cbc:IdentificationCode');\n  const tipo_operacion = mapTipoOperacion(tipo_operacion_code);\n\n  const qr_dian = getText(innerXml, 'sts:QRCode');\n\n  const supplierBlock   = getBlock(innerXml, 'cac:AccountingSupplierParty') ?? '';\n  const supplierParty   = getBlock(supplierBlock, 'cac:Party') ?? '';\n  const supplierAddress = getBlock(getBlock(supplierParty, 'cac:PhysicalLocation') ?? '', 'cac:Address') ?? '';\n  const supplierContact = getBlock(supplierParty, 'cac:Contact') ?? '';\n  const supplierTax     = getBlock(supplierParty, 'cac:PartyTaxScheme') ?? '';\n\n  const proveedor_data = {\n    nit:                 proveedor_id,\n    razon_social:        razon_social_proveedor,\n    direccion:           getText(getBlock(supplierAddress, 'cac:AddressLine') ?? '', 'cbc:Line'),\n    ciudad:              getText(supplierAddress, 'cbc:CityName'),\n    telefono:            getText(supplierContact, 'cbc:Telephone'),\n    email:               getText(supplierContact, 'cbc:ElectronicMail'),\n    regimen_tributario:  getText(getBlock(supplierTax, 'cac:TaxScheme') ?? '', 'cbc:ID') === '01' ? 'comun' : 'simplificado',\n    tipo_contribuyente:  getText(supplierBlock, 'cbc:AdditionalAccountID') === '1' ? 'PJ' : 'PN',\n  };\n\n  const lmtBlock            = getBlock(innerXml, 'cac:LegalMonetaryTotal') ?? '';\n  const valor_total_factura = toNum(getText(lmtBlock, 'cbc:PayableAmount'));\n  let valor_base_gravable   = toNum(getText(lmtBlock, 'cbc:TaxExclusiveAmount'));\n\n  const lineTag      = innerXml.includes('<cac:CreditNoteLine') ? 'cac:CreditNoteLine'\n                     : innerXml.includes('<cac:DebitNoteLine')  ? 'cac:DebitNoteLine'\n                     : 'cac:InvoiceLine';\n  const firstLineIdx = innerXml.indexOf('<' + lineTag);\n  const headerXml    = firstLineIdx > 0 ? innerXml.substring(0, firstLineIdx) : innerXml;\n\n  let iva_valor              = null;\n  let impuesto_consumo_valor = 0;\n\n  for (const ttBlock of getBlocks(headerXml, 'cac:TaxTotal')) {\n    for (const subBlock of getBlocks(ttBlock, 'cac:TaxSubtotal')) {\n      const catBlock = getBlock(subBlock, 'cac:TaxCategory') ?? '';\n      const schemeId = getText(getBlock(catBlock, 'cac:TaxScheme') ?? '', 'cbc:ID');\n      const pct      = parseFloat(getText(catBlock, 'cbc:Percent') ?? '-1');\n\n      if (schemeId === '01' || pct === 0 || pct === 5 || pct === 19) {\n        if (iva_valor === null)           iva_valor           = toNum(getText(subBlock, 'cbc:TaxAmount'));\n        if (valor_base_gravable === null) valor_base_gravable = toNum(getText(subBlock, 'cbc:TaxableAmount'));\n      } else if (schemeId === '22' || pct === 4 || pct === 8) {\n        impuesto_consumo_valor = toNum(getText(subBlock, 'cbc:TaxAmount')) ?? 0;\n      }\n    }\n    if (iva_valor === null) iva_valor = toNum(getText(ttBlock, 'cbc:TaxAmount'));\n  }\n\n  const qtyTag = lineTag === 'cac:CreditNoteLine' ? 'cbc:CreditedQuantity'\n               : lineTag === 'cac:DebitNoteLine'  ? 'cbc:DebitedQuantity'\n               : 'cbc:InvoicedQuantity';\n\n  const concepto_detallado = getBlocks(innerXml, lineTag).map((lineXml, idx) => {\n    const cantidad      = toNum(getText(lineXml, qtyTag)) ?? 1;\n    const unidad_medida = getAttr(lineXml, qtyTag, 'unitCode') ?? 'UN';\n\n    const valor_unitario_sin_impuestos = toNum(getText(getBlock(lineXml, 'cac:Price') ?? '', 'cbc:PriceAmount'));\n    const valor_total_sin_impuestos    = toNum(getText(lineXml, 'cbc:LineExtensionAmount'));\n\n    const descBlock = getBlocks(lineXml, 'cac:AllowanceCharge')\n                        .find(b => getText(b, 'cbc:ChargeIndicator') === 'false');\n    const descuento_total          = toNum(getText(descBlock ?? '', 'cbc:Amount')) ?? 0;\n    const descTarifaRaw            = toNum(getText(descBlock ?? '', 'cbc:MultiplierFactorNumeric')) ?? 0;\n    const descuento_tarifa         = descTarifaRaw <= 1 ? descTarifaRaw * 100 : descTarifaRaw;\n    const descuento_valor_unitario = cantidad > 0 ? descuento_total / cantidad : 0;\n\n    let iva_tarifa = 0, iva_total_linea = 0;\n    let impuesto_consumo_tarifa = null, impuesto_consumo_val_linea = 0;\n\n    lineIvaLoop: for (const ttBlock of getBlocks(lineXml, 'cac:TaxTotal')) {\n      for (const subBlock of getBlocks(ttBlock, 'cac:TaxSubtotal')) {\n        const catBlock = getBlock(subBlock, 'cac:TaxCategory') ?? '';\n        const schemeId = getText(getBlock(catBlock, 'cac:TaxScheme') ?? '', 'cbc:ID');\n        const pct      = parseFloat(getText(catBlock, 'cbc:Percent') ?? '-1');\n\n        if (schemeId === '01' || pct === 0 || pct === 5 || pct === 19) {\n          iva_tarifa      = pct >= 0 ? pct : 0;\n          iva_total_linea = toNum(getText(subBlock, 'cbc:TaxAmount'))\n                         ?? toNum(getText(ttBlock, 'cbc:TaxAmount')) ?? 0;\n          break lineIvaLoop;\n        } else if (schemeId === '22' || pct === 4 || pct === 8) {\n          impuesto_consumo_tarifa    = pct;\n          impuesto_consumo_val_linea = toNum(getText(subBlock, 'cbc:TaxAmount')) ?? 0;\n        }\n      }\n      if (iva_total_linea === 0) iva_total_linea = toNum(getText(ttBlock, 'cbc:TaxAmount')) ?? 0;\n    }\n\n    const iva_valor_unitario              = cantidad > 0 ? iva_total_linea / cantidad : 0;\n    const impuesto_consumo_valor_unitario = cantidad > 0 ? impuesto_consumo_val_linea / cantidad : 0;\n    const valor_total_con_impuestos       = (valor_total_sin_impuestos ?? 0) + iva_total_linea + impuesto_consumo_val_linea;\n    const valor_unitario_con_descuento    = (valor_unitario_sin_impuestos ?? 0) - descuento_valor_unitario;\n    const valor_unitario_con_impuestos    = valor_unitario_con_descuento + iva_valor_unitario + impuesto_consumo_valor_unitario;\n\n    const itemBlock   = getBlock(lineXml, 'cac:Item') ?? '';\n    const descripcion = getText(itemBlock, 'cbc:Description') ?? '';\n    const codigo =\n      getText(getBlock(itemBlock, 'cac:StandardItemIdentification') ?? '', 'cbc:ID') ??\n      getText(getBlock(itemBlock, 'cac:SellersItemIdentification')  ?? '', 'cbc:ID') ?? '';\n\n    return {\n      item_numero: parseInt(getText(lineXml, 'cbc:ID') ?? String(idx + 1)),\n      descripcion, codigo, cantidad, unidad_medida,\n      valor_unitario_sin_impuestos, valor_total_sin_impuestos,\n      descuento_tarifa, descuento_valor_unitario, descuento_total,\n      iva_tarifa, iva_valor_unitario,\n      impuesto_consumo_tarifa, impuesto_consumo_valor_unitario,\n      valor_unitario_con_descuento, valor_unitario_con_impuestos, valor_total_con_impuestos,\n    };\n  });\n\n  results.push({\n    json: {\n      tiene_xml_interior: true,\n      proveedor_data,\n      numero_factura, cufe, fecha_emision, proveedor_id, razon_social_proveedor,\n      tipo_documento, fecha_vencimiento,\n      valor_base_gravable,\n      iva_valor: iva_valor ?? 0,\n      impuesto_consumo_valor, valor_total_factura,\n      tipo_operacion, concepto_detallado,\n      retencion_fuente_valor: 0, retencion_iva_valor: 0, retencion_ica_valor: 0, otros_cargos: null,\n      centro_costo_id: null, transaccion_id: null,\n      cuenta_contable: 'pendiente', tipo_gasto: 'pendiente', estado_pago: 'pendiente',\n      asignacion_pendiente: true, registro_items: 'pendiente',\n      observaciones: null, archivo_factura_url: null,\n      metadata: {\n        fuente_extraccion: 'xml_dian',\n        tipo_documento_dian: tipo_documento_code,\n        qr_dian: qr_dian,\n      },\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        1520
+      ],
+      "id": "679061c9-ddfa-4037-a699-0fc02ae78768",
+      "name": "Extraer XML",
+      "notesInFlow": true,
+      "executeOnce": true,
+      "notes": "Obtiene resultados del XML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const outputItems = [];\nfor (const item of $input.all()) {\n  if (item.binary) {\n    for (const binaryKey of Object.keys(item.binary)) {\n      outputItems.push({\n        json: {\n          originalItemIndex: $input.all().indexOf(item),\n          binaryKey: binaryKey,\n          fileName: item.binary[binaryKey].fileName || binaryKey,\n          mimeType: item.binary[binaryKey].mimeType || 'application/octet-stream',\n          fileSize: item.binary[binaryKey].fileSize || 0\n        },\n        binary: { data: item.binary[binaryKey] }\n      });\n    }\n  }\n}\nreturn outputItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        1376
+      ],
+      "id": "7fc884f7-3cd3-42dd-84ac-c8a3e943d210",
+      "name": "Dividir Archivos",
+      "notesInFlow": true,
+      "notes": "Divide XML y PDF en items"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $('Switch').item.json.fileName }}",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "REDACTED_DRIVE_FOLDER_XML",
+            "mode": "list",
+            "cachedResultName": "RecibidasHCG_XML_2026",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_XML"
+          },
+          "whatToSearch": "files"
+        },
+        "options": { "fields": ["id", "mimeType"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        1520
+      ],
+      "id": "4f99292a-bd50-4436-a28c-2024e9110dc1",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": { "__rl": true, "value": "={{ $json.id }}", "mode": "id" },
+        "newUpdatedFileName": "=HCG_REC_{{ $('Extraer XML').item.json.fecha_emision }}_{{ $('Extraer XML').item.json.proveedor_id }}_{{ $('Extraer XML').item.json.numero_factura }}",
+        "options": { "fields": ["webViewLink"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2592,
+        1520
+      ],
+      "id": "c5ffe99a-9f14-4fe6-94eb-4f1f30a409f4",
+      "name": "Update file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "=name = '{{ $json.data[1].fileName }}'",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "REDACTED_DRIVE_FOLDER_PDF",
+            "mode": "list",
+            "cachedResultName": "RecibidasHCG_PDF_2026",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_PDF"
+          },
+          "whatToSearch": "files"
+        },
+        "options": { "fields": ["id", "mimeType", "name"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1600,
+        1792
+      ],
+      "id": "4c3bd6ac-ac78-4697-aaa3-e4a478ceba1e",
+      "name": "Search files and folders1",
+      "executeOnce": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": { "__rl": true, "value": "={{ $json.id }}", "mode": "id" },
+        "newUpdatedFileName": "=HCG_REC_{{ $('Extraer XML').item.json.fecha_emision }}_{{ $('Extraer XML').item.json.proveedor_id }}_{{ $('Extraer XML').item.json.numero_factura }}",
+        "options": { "fields": ["webViewLink", "name", "id"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1808,
+        1792
+      ],
+      "id": "8264f614-8471-4567-a862-415ff1483516",
+      "name": "Update file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "facturas",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $json.data[0].id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "archivo_factura_url",
+              "fieldValue": "={{ $json.data[1].webViewLink }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        1728
+      ],
+      "id": "48b39a18-563e-4ea1-8534-a2a6ace6f4a0",
+      "name": "Update a row1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "39bfc32b-f8c2-475d-bcb1-85dac9c41c33",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "xml",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "XML"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "6eb33a0a-32dd-427e-bb6e-01f97ad31f25"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        512,
+        1264
+      ],
+      "id": "d5212425-f76e-4d21-950d-f681a3546a3f",
+      "name": "Switch Subida"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1248,
+        1792
+      ],
+      "id": "4fd69f24-c866-4e5d-acd9-4846b6da126c",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "let results = [];\nfor (item of items) {\n    for (key of Object.keys(item.binary)) {\n        results.push({\n            json: { fileName: item.binary[key].fileName, mimeType: item.binary[key].mimeType },\n            binary: { data: item.binary[key] }\n        });\n    }\n}\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        1808
+      ],
+      "id": "2a0ee6e0-6c99-4097-8d42-957f38ee75b0",
+      "name": "Obtener Tipo de Archivo1",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "fileName, fecha_emision, proveedor_id, numero_factura",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        1792
+      ],
+      "id": "07f98c97-eaa5-4244-a26f-65e6a9ea5113",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2192,
+        1728
+      ],
+      "id": "4069d809-0e0d-43fe-9665-9bcffcb554f5",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "id, webViewLink, data[0].id",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2416,
+        1728
+      ],
+      "id": "e4b81188-825e-4792-9ee0-897451d2b644",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": { "options": {} },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -736,
+        1376
+      ],
+      "id": "e942b8e7-c614-4f4f-b16c-4f4fbf5a0a8a",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3008,
+        2128
+      ],
+      "id": "1616cc02-df4c-4611-82ea-c9becc402ddd",
+      "name": "No Operation, do nothing",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": { "options": {} },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -512,
+        1776
+      ],
+      "id": "2063a65a-9995-4e02-b8c5-c3bcdab8be9d",
+      "name": "Loop PDF"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8d9ce466-b60e-4d15-b678-20fa818afaad",
+              "leftValue": "={{ $json.cufe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        1760
+      ],
+      "id": "a23efa45-3a15-4c85-8a7b-d4865c40f1a4",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "tableId": "facturas",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "numero_factura", "fieldValue": "={{ $json.numero_factura }}" },
+            { "fieldId": "cufe", "fieldValue": "={{ $json.cufe }}" },
+            { "fieldId": "fecha_emision", "fieldValue": "={{ $json.fecha_emision }}" },
+            { "fieldId": "fecha_vencimiento", "fieldValue": "={{ $json.fecha_vencimiento }}" },
+            { "fieldId": "proveedor_id", "fieldValue": "={{ $json.nit_proveedor }}" },
+            { "fieldId": "concepto_detallado", "fieldValue": "={{ $json.concepto_detallado }}" },
+            { "fieldId": "valor_base_gravable", "fieldValue": "={{ $json.valor_base_gravable }}" },
+            { "fieldId": "iva_valor", "fieldValue": "={{ $json.iva_valor }}" },
+            { "fieldId": "retencion_fuente_valor", "fieldValue": "={{ $json.retencion_fuente_valor }}" },
+            { "fieldId": "retencion_ica_valor", "fieldValue": "={{ $json.retencion_ica_valor }}" },
+            { "fieldId": "impuesto_consumo_valor", "fieldValue": "={{ $json.impuesto_consumo_valor }}" },
+            { "fieldId": "otros_cargos", "fieldValue": "={{ $json.otros_cargos }}" },
+            { "fieldId": "valor_total_factura", "fieldValue": "={{ $json.valor_total_factura }}" },
+            { "fieldId": "cuenta_contable", "fieldValue": "pendiente" },
+            { "fieldId": "tipo_gasto", "fieldValue": "pendiente" },
+            { "fieldId": "tipo_operacion", "fieldValue": "={{ $json.tipo_operacion }}" },
+            { "fieldId": "estado_pago", "fieldValue": "pendiente" },
+            { "fieldId": "observaciones", "fieldValue": "={{ $json.observaciones }}" },
+            { "fieldId": "centro_costo_id", "fieldValue": "pendiente" },
+            { "fieldId": "archivo_factura_url", "fieldValue": "=pendiente" },
+            { "fieldId": "tipo_documento", "fieldValue": "={{ $json.tipo_documento }}" }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        2016
+      ],
+      "id": "1db4f2fe-8959-4d27-94ec-35de3f5a3030",
+      "name": "Registrar Factura1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "REDACTED_SUBWORKFLOW_ID",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/REDACTED_SUBWORKFLOW_ID",
+          "cachedResultName": "AgenteFacturasRecibidas_V3.01"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        1904
+      ],
+      "name": "Agente_Facturas1",
+      "id": "0c308d44-6a3f-43fb-925c-1c15645e0262"
+    },
+    {
+      "parameters": {
+        "tableId": "proveedores",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "nit", "fieldValue": "={{ $json.nit_proveedor }}" },
+            { "fieldId": "razon_social", "fieldValue": "={{ $json.razon_social_proveedor }}" },
+            { "fieldId": "regimen_tributario", "fieldValue": "comun" }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        1824
+      ],
+      "id": "00442faa-0d76-4ff4-8a4a-d8691d04e153",
+      "name": "Crear Proveedor",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e75a98f-7067-43ef-ab58-7c45555e9d36",
+              "name": "cufe",
+              "value": "={{ $('Agente_Facturas1').item.json.cufe }}",
+              "type": "string"
+            },
+            {
+              "id": "af2c2699-84f8-40e3-8469-5c15055ac8de",
+              "name": "fileName",
+              "value": "={{ $('Agente_Facturas1').item.json.fileName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        2096
+      ],
+      "id": "8030bbd7-f5ba-441c-8c92-d87904574a2e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "27656fda-fce3-4082-ae11-920bf0d998b3", "name": "numero_factura", "value": "={{ $json.numero_factura }}", "type": "string" },
+            { "id": "9718d76c-288d-4159-988b-33738482f3f7", "name": "fecha_emision", "value": "={{ $json.fecha_emision }}", "type": "string" },
+            { "id": "4f66194e-6af4-4e36-911e-c28cce134fea", "name": "proveedor_id", "value": "={{ $json.proveedor_id }}", "type": "string" },
+            { "id": "163e46f8-6558-4cee-8e57-57466522c2ad", "name": "fileName", "value": "={{ $json.fileName }}", "type": "string" },
+            { "id": "16a962e0-0534-417c-a4fc-c6eba6dd3e7d", "name": "id", "value": "={{ $json.id }}", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        1984
+      ],
+      "id": "cd0a9cc2-d547-4f41-8ba6-ba3216d7909e",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => {\n  const { fileName, ...facturaData } = item.json;\n  return { json: { data: [ facturaData, { fileName } ] } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        1984
+      ],
+      "id": "287c40a2-a747-4971-bf87-595790b4861b",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "tableId": "compras_detalle",
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "proveedor_id", "fieldValue": "={{ $json.proveedor_id }}" },
+            { "fieldId": "razon_social_proveedor", "fieldValue": "={{ $json.razon_social_proveedor }}" },
+            { "fieldId": "numero_factura", "fieldValue": "={{ $json.numero_factura }}" },
+            { "fieldId": "fecha_emision", "fieldValue": "={{ $json.fecha_emision }}" },
+            { "fieldId": "item_numero", "fieldValue": "={{ $json.item_numero }}" },
+            { "fieldId": "codigo", "fieldValue": "={{ $json.codigo }}" },
+            { "fieldId": "descripcion", "fieldValue": "={{ $json.descripcion }}" },
+            { "fieldId": "cantidad", "fieldValue": "={{ $json.cantidad }}" },
+            { "fieldId": "unidad_medida", "fieldValue": "={{ $json.unidad_medida }}" },
+            { "fieldId": "valor_unitario_sin_impuestos", "fieldValue": "={{ $json.valor_unitario_sin_impuestos }}" },
+            { "fieldId": "descuento_tarifa", "fieldValue": "={{ $json.descuento_tarifa }}" },
+            { "fieldId": "descuento_valor_unitario", "fieldValue": "={{ $json.descuento_valor_unitario }}" },
+            { "fieldId": "valor_unitario_con_descuento", "fieldValue": "={{ $json.valor_unitario_con_descuento }}" },
+            { "fieldId": "valor_total_sin_impuestos", "fieldValue": "={{ $json.valor_total_sin_impuestos }}" },
+            { "fieldId": "descuento_total", "fieldValue": "={{ $json.descuento_total }}" },
+            { "fieldId": "iva_tarifa", "fieldValue": "={{ $json.iva_tarifa }}" },
+            { "fieldId": "iva_valor_unitario", "fieldValue": "={{ $json.iva_valor_unitario }}" },
+            { "fieldId": "impuesto_consumo_tarifa", "fieldValue": "={{ $json.impuesto_consumo_tarifa }}" },
+            { "fieldId": "impuesto_consumo_valor_unitario", "fieldValue": "={{ $json.impuesto_consumo_valor_unitario }}" },
+            { "fieldId": "valor_unitario_con_impuestos", "fieldValue": "={{ $json.valor_unitario_con_impuestos }}" },
+            { "fieldId": "valor_total_con_impuestos", "fieldValue": "={{ $json.valor_total_con_impuestos }}" }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        368,
+        1936
+      ],
+      "id": "042cf2e2-f329-4ba4-9721-cb3f2f87ee03",
+      "name": "Registro Detalle1",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}",
+        "driveId": { "__rl": true, "mode": "list", "value": "My Drive" },
+        "folderId": {
+          "__rl": true,
+          "value": "REDACTED_DRIVE_FOLDER_PDF",
+          "mode": "list",
+          "cachedResultName": "RecibidasHCG_PDF_2026",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_PDF"
+        },
+        "options": { "simplifyOutput": true }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -512,
+        1616
+      ],
+      "id": "8823715d-e31e-4d1e-9248-f0425ed1518d",
+      "name": "Subir PDF a Drive1",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "searchMethod": "query",
+        "queryString": "=name = '{{ $json.data[1].fileName }}'",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "REDACTED_DRIVE_FOLDER_PDF",
+            "mode": "list",
+            "cachedResultName": "RecibidasHCG_PDF_2026",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/REDACTED_DRIVE_FOLDER_PDF"
+          },
+          "whatToSearch": "files"
+        },
+        "options": { "fields": ["id", "mimeType", "name"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1280,
+        1984
+      ],
+      "id": "0e4cdbbe-f138-4c1a-a949-464fdc7b1bfb",
+      "name": "Search files and folders3",
+      "executeOnce": false,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "fileId": { "__rl": true, "value": "={{ $json.id }}", "mode": "id" },
+        "newUpdatedFileName": "=HCG_REC_{{ $('Edit Fields4').item.json.fecha_emision }}_{{ $('Edit Fields4').item.json.proveedor_id }}_{{ $('Edit Fields4').item.json.numero_factura }}",
+        "options": { "fields": ["webViewLink", "name"] }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1504,
+        1984
+      ],
+      "id": "37c053e3-72d5-462c-a2e3-6120fb620bb0",
+      "name": "Update file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REDACTED_GDRIVE_CRED_ID",
+          "name": "Google Drive HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "30fbcfef-e817-448e-98ff-3bb8f74b0e56", "name": "webViewLink", "value": "={{ $json.webViewLink }}", "type": "string" },
+            { "id": "59336628-c8c7-496a-95e1-84baa91358fb", "name": "data[0].id", "value": "={{ $('Code in JavaScript1').item.json.data[0].id }}", "type": "string" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1728,
+        1984
+      ],
+      "id": "fe272824-306e-40c1-b71d-f26b22bf1a4b",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "facturas",
+        "filters": {
+          "conditions": [
+            { "keyName": "id", "condition": "eq", "keyValue": "={{ $json.data[0].id }}" }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            { "fieldId": "archivo_factura_url", "fieldValue": "={{ $json.webViewLink }}" },
+            { "fieldId": "registro_items", "fieldValue": "registrado" }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2016,
+        1984
+      ],
+      "id": "fb0bbf91-820a-4e63-82c3-3bcdda2f5fca",
+      "name": "Update a row2",
+      "credentials": {
+        "supabaseApi": {
+          "id": "REDACTED_SUPABASE_CRED_ID",
+          "name": "Supabase HCG"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1328,
+        1424
+      ],
+      "id": "78abc103-943e-4c4f-b3f9-615b898026e1",
+      "name": "Flujo Manual"
+    },
+    {
+      "parameters": {
+        "content": "### PDF -> LlamaCloud\n### ZIP -> Analisis XML y almacenamiento de PDF",
+        "height": 176,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        1216
+      ],
+      "id": "3ab674c4-f99b-45f4-88d0-ed05aac403f5",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "39bfc32b-f8c2-475d-bcb1-85dac9c41c33",
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "zip",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ZIP"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "6eb33a0a-32dd-427e-bb6e-01f97ad31f25"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -320,
+        1392
+      ],
+      "id": "46ffcf11-cafc-4a1f-9680-e0e15bac8fa1",
+      "name": "Switch ZIP o PDF",
+      "notesInFlow": true,
+      "notes": "XML O ZIP"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $json.concepto_detallado.map(item => ({\n  ...item,\n  numero_factura:        $json.numero_factura,\n  proveedor_id:          $json.proveedor_id,\n  razon_social_proveedor: $json.razon_social_proveedor,\n  fecha_emision:         $json.fecha_emision,\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        1520
+      ],
+      "id": "8ac4fed4-6761-4860-b945-a78769b40788",
+      "name": "Code Obtiene Concepto Detallado",
+      "executeOnce": true,
+      "notesInFlow": true,
+      "onError": "continueRegularOutput",
+      "notes": "Extrae items de Factura"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $json.concepto_detallado.map(item => ({\n  ...item,\n  numero_factura:        $json.numero_factura,\n  proveedor_id:          $json.proveedor_id,\n  razon_social_proveedor: $json.razon_social_proveedor,\n  fecha_emision:         $json.fecha_emision,\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        1936
+      ],
+      "id": "02a8ab14-f330-461f-8af3-983c1f2240e4",
+      "name": "Extrae Concepto Detallado",
+      "executeOnce": true,
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Descomprimir ZIP1": { "main": [[{ "node": "Dividir Archivos", "type": "main", "index": 0 }]] },
+    "Remove Duplicates7": { "main": [[{ "node": "Loop PDF", "type": "main", "index": 0 }, { "node": "Subir PDF a Drive1", "type": "main", "index": 0 }]] },
+    "Remove Duplicates1": { "main": [[{ "node": "Descomprimir ZIP1", "type": "main", "index": 0 }]] },
+    "Crear Proveedor3": { "main": [[{ "node": "Registrar Factura2", "type": "main", "index": 0 }]] },
+    "Factura Recibida": { "main": [[{ "node": "Marcar como Leido", "type": "main", "index": 0 }, { "node": "Loop Over Items", "type": "main", "index": 0 }]] },
+    "Obtener Tipo de Archivo": { "main": [[{ "node": "Switch ZIP o PDF", "type": "main", "index": 0 }]] },
+    "Leer Facturas no Leidas": { "main": [[{ "node": "Marcar como Leido", "type": "main", "index": 0 }, { "node": "Loop Over Items", "type": "main", "index": 0 }]] },
+    "Registrar Factura2": { "main": [[{ "node": "Code Obtiene Concepto Detallado", "type": "main", "index": 0 }, { "node": "Merge1", "type": "main", "index": 0 }]] },
+    "Convertir a JSON": { "main": [[{ "node": "Extraer XML", "type": "main", "index": 0 }]] },
+    "Extract from File": { "main": [[{ "node": "Convertir a JSON", "type": "main", "index": 0 }]] },
+    "Registro Detalle": { "main": [[{ "node": "Search files and folders", "type": "main", "index": 0 }], []] },
+    "Switch": { "main": [[{ "node": "Extract from File", "type": "main", "index": 0 }], [{ "node": "Obtener Tipo de Archivo1", "type": "main", "index": 0 }]] },
+    "Subir XML a Drive": { "main": [[]] },
+    "Subir PDF a Drive": { "main": [[]] },
+    "Extraer XML": { "main": [[{ "node": "Crear Proveedor3", "type": "main", "index": 0 }, { "node": "Merge", "type": "main", "index": 0 }]] },
+    "Dividir Archivos": { "main": [[{ "node": "Switch Subida", "type": "main", "index": 0 }, { "node": "Switch", "type": "main", "index": 0 }]] },
+    "Update a row": { "main": [[]] },
+    "Search files and folders": { "main": [[{ "node": "Update file1", "type": "main", "index": 0 }]] },
+    "Update file1": { "main": [[{ "node": "Update a row", "type": "main", "index": 0 }]] },
+    "Search files and folders1": { "main": [[{ "node": "Update file2", "type": "main", "index": 0 }]] },
+    "Update file2": { "main": [[{ "node": "Merge1", "type": "main", "index": 1 }]] },
+    "Update a row1": { "main": [[{ "node": "No Operation, do nothing", "type": "main", "index": 0 }]] },
+    "Switch Subida": { "main": [[{ "node": "Subir XML a Drive", "type": "main", "index": 0 }], [{ "node": "Subir PDF a Drive", "type": "main", "index": 0 }]] },
+    "Merge": { "main": [[{ "node": "Aggregate", "type": "main", "index": 0 }]] },
+    "Obtener Tipo de Archivo1": { "main": [[{ "node": "Merge", "type": "main", "index": 1 }]] },
+    "Aggregate": { "main": [[{ "node": "Search files and folders1", "type": "main", "index": 0 }]] },
+    "Merge1": { "main": [[{ "node": "Aggregate1", "type": "main", "index": 0 }]] },
+    "Aggregate1": { "main": [[{ "node": "Update a row1", "type": "main", "index": 0 }]] },
+    "Loop Over Items": { "main": [[], [{ "node": "Obtener Tipo de Archivo", "type": "main", "index": 0 }]] },
+    "No Operation, do nothing": { "main": [[{ "node": "Loop Over Items", "type": "main", "index": 0 }]] },
+    "Loop PDF": { "main": [[{ "node": "Filter", "type": "main", "index": 0 }], [{ "node": "Agente_Facturas1", "type": "main", "index": 0 }]] },
+    "Registrar Factura1": { "main": [[{ "node": "Edit Fields3", "type": "main", "index": 0 }, { "node": "Extrae Concepto Detallado", "type": "main", "index": 0 }]] },
+    "Agente_Facturas1": { "main": [[{ "node": "Crear Proveedor", "type": "main", "index": 0 }, { "node": "Registrar Factura1", "type": "main", "index": 0 }]] },
+    "Edit Fields3": { "main": [[{ "node": "Loop PDF", "type": "main", "index": 0 }]] },
+    "Filter": { "main": [[{ "node": "Edit Fields4", "type": "main", "index": 0 }]] },
+    "Edit Fields4": { "main": [[{ "node": "Code in JavaScript1", "type": "main", "index": 0 }]] },
+    "Code in JavaScript1": { "main": [[{ "node": "Search files and folders3", "type": "main", "index": 0 }]] },
+    "Registro Detalle1": { "main": [[]] },
+    "Search files and folders3": { "main": [[{ "node": "Update file", "type": "main", "index": 0 }]] },
+    "Update file": { "main": [[{ "node": "Edit Fields5", "type": "main", "index": 0 }]] },
+    "Edit Fields5": { "main": [[{ "node": "Update a row2", "type": "main", "index": 0 }]] },
+    "Update a row2": { "main": [[{ "node": "No Operation, do nothing", "type": "main", "index": 0 }]] },
+    "Flujo Manual": { "main": [[{ "node": "Leer Facturas no Leidas", "type": "main", "index": 0 }]] },
+    "Switch ZIP o PDF": { "main": [[{ "node": "Remove Duplicates1", "type": "main", "index": 0 }], [{ "node": "Remove Duplicates7", "type": "main", "index": 0 }]] },
+    "Code Obtiene Concepto Detallado": { "main": [[{ "node": "Registro Detalle", "type": "main", "index": 0 }]] },
+    "Extrae Concepto Detallado": { "main": [[{ "node": "Registro Detalle1", "type": "main", "index": 0 }]] }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "REDACTED_VERSION_ID",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REDACTED_INSTANCE_ID"
+  },
+  "id": "REDACTED_WORKFLOW_ID",
+  "tags": []
+}
