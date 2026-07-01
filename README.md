@@ -69,7 +69,7 @@ This pipeline removes that work for the XML path entirely and structures the PDF
 - The flaky layer is rarely the parser. It is the credential layer — OAuth tokens that expire silently on the Drive or Gmail side and produce surprise empty results. An explicit health-check workflow before scaling is worth more than another round of parser polish.
 - Deduplication by filename alone is necessary but not sufficient. CUFE (the DIAN-issued unique identifier) is the real key for the XML path; the workflow uses filename for early discard and CUFE-aware lookups downstream.
 - Suppliers send malformed XML more often than expected. Building tolerance into the parser (every getter returns `null` instead of throwing) eliminated a category of pager fires.
-- Once the system was stable, the bottleneck moved from ingestion to the human classification step (`cuenta_contable`, `centro_costo_id`). The accountant still had to assign those by hand. The next workflow on the roadmap was a suggestion engine for those fields using historical patterns; it was scoped but not built before the company shut down.
+- Once the system was stable, the bottleneck moved from ingestion to the human classification step (`cuenta_contable`, `centro_costo_id`). The accountant still had to assign those by hand. The next workflow on the roadmap was a suggestion engine for those fields using historical patterns; it was scoped but not built.
 
 ## Limitations of what's in this repo
 
